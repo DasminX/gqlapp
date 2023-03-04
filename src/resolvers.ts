@@ -3,13 +3,13 @@
 const resolvers = {
   Query: {
     async user(_, input, { User, dbFunctions }) {
-      return await dbFunctions.getOne(User, input.id);
+      return await dbFunctions.getOneById(User, input.id);
     },
     async users(_, __, { User, dbFunctions }) {
       return await dbFunctions.getAll(User);
     },
     async pet(_, input, { Pet, dbFunctions }) {
-      return await dbFunctions.getOne(Pet, input.id);
+      return await dbFunctions.getOneById(Pet, input.id);
     },
     async pets(_, __, { Pet, dbFunctions }) {
       return await dbFunctions.getAll(Pet);
@@ -17,10 +17,10 @@ const resolvers = {
   },
   Mutation: {
     async createUser(_, input, { User, dbFunctions }) {
-      return await dbFunctions.create(User, input.name);
+      return await dbFunctions.createOne(User, input.input);
     },
     async createPet(_, input, { Pet, dbFunctions }) {
-      return await dbFunctions.create(Pet, input);
+      return await dbFunctions.createOne(Pet, input.input);
     },
   },
   User: {
@@ -30,7 +30,7 @@ const resolvers = {
   },
   Pet: {
     async owner(root, __, { User, dbFunctions }) {
-      return await dbFunctions.getOne(User, root.owner);
+      return await dbFunctions.getOneById(User, root.owner);
     },
   },
 };

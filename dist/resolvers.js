@@ -14,7 +14,7 @@ const resolvers = {
     Query: {
         user(_, input, { User, dbFunctions }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield dbFunctions.getOne(User, input.id);
+                return yield dbFunctions.getOneById(User, input.id);
             });
         },
         users(_, __, { User, dbFunctions }) {
@@ -24,7 +24,7 @@ const resolvers = {
         },
         pet(_, input, { Pet, dbFunctions }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield dbFunctions.getOne(Pet, input.id);
+                return yield dbFunctions.getOneById(Pet, input.id);
             });
         },
         pets(_, __, { Pet, dbFunctions }) {
@@ -36,12 +36,12 @@ const resolvers = {
     Mutation: {
         createUser(_, input, { User, dbFunctions }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield dbFunctions.create(User, input.name);
+                return yield dbFunctions.createOne(User, input.input);
             });
         },
         createPet(_, input, { Pet, dbFunctions }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield dbFunctions.create(Pet, input);
+                return yield dbFunctions.createOne(Pet, input.input);
             });
         },
     },
@@ -55,7 +55,7 @@ const resolvers = {
     Pet: {
         owner(root, __, { User, dbFunctions }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield dbFunctions.getOne(User, root.owner);
+                return yield dbFunctions.getOneById(User, root.owner);
             });
         },
     },

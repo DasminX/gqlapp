@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import resolvers from "./resolvers";
 import typeDefs from "./schema";
 import { User, Pet } from "./utils/db";
-import dbFunctions from "./utils/db-utils";
+import dbFunctions from "./utils/db-func";
 
 dotenv.config();
 const DB_URL = process.env.DB_URL_290602 as string;
