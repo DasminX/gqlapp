@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 const resolvers = {
   Query: {
     async user(_, input, { User, dbFunctions }) {
@@ -16,8 +15,36 @@ const resolvers = {
     },
   },
   Mutation: {
-    async createUser(_, input, { User, dbFunctions }) {
-      return await dbFunctions.createOne(User, input.input);
+    async signup(_, input, { User, dbFunctions, hashPassword }) {
+      const isUser = await dbFunctions.findOne(User, {
+        email: input.input.email,
+      });
+      if (isUser) {
+        throw new Error("Account with that email already exists!");
+      }
+
+      const newUser = await dbFunctions.createOne(User, {
+        email: input.input.email,
+        password: hashPassword(input.input.password),
+      });
+
+      if (!newUser) {
+        throw new Error("Something went wrong! Try again.");
+      }
+
+      return "Registering successfull!"; // todo
+    },
+    async login(
+      _,
+      input,
+      { User, dbFunctions, createToken, comparePasswordAndThrow }
+    ) {
+      const user = await dbFunctions.findOne(User, input.input.email);
+
+      comparePasswordAndThrow(input.input.password, user.password);
+
+      const token = createToken(user);
+      return { user, token };
     },
     async createPet(_, input, { Pet, dbFunctions }) {
       return await dbFunctions.createOne(Pet, input.input);
