@@ -24,7 +24,9 @@ mongoose
       resolvers,
       context: ({ req }) => {
         const token = req.headers.authorization as string;
+        console.log(token);
         const currentUser = getUserFromToken(token);
+        console.log(currentUser);
         return {
           User,
           Pet,

@@ -21,7 +21,9 @@ mongoose_1.default
         resolvers: resolvers_1.default,
         context: ({ req }) => {
             const token = req.headers.authorization;
+            console.log(token);
             const currentUser = (0, auth_1.getUserFromToken)(token);
+            console.log(currentUser);
             return {
                 User: db_1.User,
                 Pet: db_1.Pet,

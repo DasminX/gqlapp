@@ -25,7 +25,8 @@ const resolvers = {
 
       const newUser = await dbFunctions.createOne(User, {
         email: input.input.email,
-        password: hashPassword(input.input.password),
+        name: input.input.name,
+        password: await hashPassword(input.input.password),
       });
 
       if (!newUser) {
@@ -41,7 +42,7 @@ const resolvers = {
     ) {
       const user = await dbFunctions.findOne(User, input.input.email);
 
-      comparePasswordAndThrow(input.input.password, user.password);
+      await comparePasswordAndThrow(input.input.password, user.password);
 
       const token = createToken(user);
       return { user, token };

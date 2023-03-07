@@ -2,6 +2,7 @@ import { now, Schema, model } from "mongoose";
 
 export interface UserType extends Document {
   name: String;
+  email: String;
   createdAt: Date;
   pets: Array<typeof Pet>;
 }

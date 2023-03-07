@@ -44,7 +44,8 @@ const resolvers = {
                 }
                 const newUser = yield dbFunctions.createOne(User, {
                     email: input.input.email,
-                    password: hashPassword(input.input.password),
+                    name: input.input.name,
+                    password: yield hashPassword(input.input.password),
                 });
                 if (!newUser) {
                     throw new Error("Something went wrong! Try again.");
@@ -55,7 +56,7 @@ const resolvers = {
         login(_, input, { User, dbFunctions, createToken, comparePasswordAndThrow }) {
             return __awaiter(this, void 0, void 0, function* () {
                 const user = yield dbFunctions.findOne(User, input.input.email);
-                comparePasswordAndThrow(input.input.password, user.password);
+                yield comparePasswordAndThrow(input.input.password, user.password);
                 const token = createToken(user);
                 return { user, token };
             });

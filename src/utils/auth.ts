@@ -21,14 +21,14 @@ export const getUserFromToken = (token: string) => {
   return null;
 };
 
-export const comparePasswordAndThrow = async (
+export const comparePasswordAndThrow = (
   incomingPassword: string,
   dbPassword: string
 ) => {
-  if (!(await bcrypt.compare(incomingPassword, dbPassword))) {
+  if (!bcrypt.compare(incomingPassword, dbPassword)) {
     throw new Error("Wrong login or password!");
   }
 };
 
-export const hashPassword = async (incomingPassword: string) =>
-  await bcrypt.hash(incomingPassword, 14);
+export const hashPassword = (incomingPassword: string) =>
+  bcrypt.hash(incomingPassword, 14);

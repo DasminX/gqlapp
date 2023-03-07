@@ -7,6 +7,7 @@ const graphql_tag_1 = __importDefault(require("graphql-tag"));
 const typeDefs = (0, graphql_tag_1.default) `
   type User {
     id: ID!
+    email: String!
     name: String!
     createdAt: String!
     pets: [Pet]!
@@ -33,8 +34,8 @@ const typeDefs = (0, graphql_tag_1.default) `
     name: String!
     age: Int!
     type: PetType!
-    adopted: Boolean!
     owner: ID!
+    adopted: Boolean!
   }
 
   input authSignupInput {

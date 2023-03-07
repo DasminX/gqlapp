@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 const typeDefs = gql`
   type User {
     id: ID!
+    email: String!
     name: String!
     createdAt: String!
     pets: [Pet]!
@@ -28,8 +29,8 @@ const typeDefs = gql`
     name: String!
     age: Int!
     type: PetType!
-    adopted: Boolean!
     owner: ID!
+    adopted: Boolean!
   }
 
   input authSignupInput {
