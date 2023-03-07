@@ -20,15 +20,10 @@ mongoose_1.default
         typeDefs: schema_1.default,
         resolvers: resolvers_1.default,
         context: ({ req }) => {
-            const token = req.headers.authorization;
-            console.log(token);
-            const currentUser = (0, auth_1.getUserFromToken)(token);
-            console.log(currentUser);
             return {
                 User: db_1.User,
                 Pet: db_1.Pet,
                 dbFunctions: db_func_1.default,
-                currentUser,
                 createToken: auth_1.createToken,
                 comparePasswordAndThrow: auth_1.comparePasswordAndThrow,
                 hashPassword: auth_1.hashPassword,
