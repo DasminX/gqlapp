@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
 
+dotenv.config();
 const secret = process.env.SECRET_JWT_TOKEN as string;
 
 type tokenObjectType = {

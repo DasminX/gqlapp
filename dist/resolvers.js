@@ -36,7 +36,7 @@ const resolvers = {
     Mutation: {
         signup(_, input, { User, dbFunctions, hashPassword }) {
             return __awaiter(this, void 0, void 0, function* () {
-                const isUser = yield dbFunctions.findOne(User, {
+                const isUser = yield dbFunctions.getOneByParams(User, {
                     email: input.input.email,
                 });
                 if (isUser) {
@@ -55,9 +55,15 @@ const resolvers = {
         },
         login(_, input, { User, dbFunctions, createToken, comparePasswordAndThrow }) {
             return __awaiter(this, void 0, void 0, function* () {
-                const user = yield dbFunctions.findOne(User, input.input.email);
+                const user = yield dbFunctions.getOneByParams(User, {
+                    email: input.input.email,
+                });
+                if (!user) {
+                    throw new Error("User with that email does not exist!");
+                }
                 yield comparePasswordAndThrow(input.input.password, user.password);
-                const token = createToken(user);
+                const token = createToken({ id: user._id, name: user.name });
+                console.log(token);
                 return { user, token };
             });
         },

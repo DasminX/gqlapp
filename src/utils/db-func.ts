@@ -26,6 +26,11 @@ const getOneById = <T extends Model<UserType | PetType>>(
   id: String
 ) => model.findOne({ _id: id });
 
+const getOneByParams = <T extends Model<UserType | PetType>>(
+  model: T,
+  params = {}
+) => model.findOne(params);
+
 const createOne = <T extends Model<UserType | PetType>>(
   model: T,
   input: T extends Model<UserType>
@@ -37,4 +42,4 @@ const createOne = <T extends Model<UserType | PetType>>(
   return model.create(input);
 };
 
-export default { getOneById, getAll, createOne };
+export default { getOneById, getAll, createOne, getOneByParams };

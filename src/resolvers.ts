@@ -16,9 +16,10 @@ const resolvers = {
   },
   Mutation: {
     async signup(_, input, { User, dbFunctions, hashPassword }) {
-      const isUser = await dbFunctions.findOne(User, {
+      const isUser = await dbFunctions.getOneByParams(User, {
         email: input.input.email,
       });
+
       if (isUser) {
         throw new Error("Account with that email already exists!");
       }
@@ -40,11 +41,19 @@ const resolvers = {
       input,
       { User, dbFunctions, createToken, comparePasswordAndThrow }
     ) {
-      const user = await dbFunctions.findOne(User, input.input.email);
+      const user = await dbFunctions.getOneByParams(User, {
+        email: input.input.email,
+      });
+
+      if (!user) {
+        throw new Error("User with that email does not exist!");
+      }
 
       await comparePasswordAndThrow(input.input.password, user.password);
 
-      const token = createToken(user);
+      const token = createToken({ id: user._id, name: user.name });
+      console.log(token);
+
       return { user, token };
     },
     async createPet(_, input, { Pet, dbFunctions }) {
