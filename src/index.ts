@@ -23,6 +23,8 @@ mongoose
       typeDefs,
       resolvers,
       context: ({ req }) => {
+        const token =
+          req?.headers?.authorization || req?.cookies?.jwtgql || "invalid";
         return {
           User,
           Pet,
@@ -30,6 +32,7 @@ mongoose
           createToken,
           comparePasswordAndThrow,
           hashPassword,
+          token,
         };
       },
     });

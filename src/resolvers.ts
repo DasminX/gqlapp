@@ -1,4 +1,6 @@
 // @ts-nocheck
+import { authenticated } from "./utils/protect-func";
+
 const resolvers = {
   Query: {
     async user(_, input, { User, dbFunctions }) {
@@ -50,15 +52,13 @@ const resolvers = {
       }
 
       await comparePasswordAndThrow(input.input.password, user.password);
-
       const token = createToken({ id: user._id, name: user.name });
-      console.log(token);
 
       return { user, token };
     },
-    async createPet(_, input, { Pet, dbFunctions }) {
+    createPet: authenticated(async (_, input, { Pet, dbFunctions }, __) => {
       return await dbFunctions.createOne(Pet, input.input);
-    },
+    }),
   },
   User: {
     async pets(root, __, { Pet, dbFunctions }) {

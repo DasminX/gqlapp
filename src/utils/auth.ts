@@ -23,6 +23,17 @@ export const getUserFromToken = (token: string) => {
   return null;
 };
 
+export const isTokenValid = (token: string) => {
+  const tokenObject = jwt.verify(token, secret);
+  if (
+    typeof tokenObject === "object" &&
+    "id" in tokenObject &&
+    "name" in tokenObject
+  )
+    return true;
+  return false;
+};
+
 export const comparePasswordAndThrow = (
   incomingPassword: string,
   dbPassword: string

@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-nocheck
+const protect_func_1 = require("./utils/protect-func");
 const resolvers = {
     Query: {
         user(_, input, { User, dbFunctions }) {
@@ -63,15 +64,12 @@ const resolvers = {
                 }
                 yield comparePasswordAndThrow(input.input.password, user.password);
                 const token = createToken({ id: user._id, name: user.name });
-                console.log(token);
                 return { user, token };
             });
         },
-        createPet(_, input, { Pet, dbFunctions }) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return yield dbFunctions.createOne(Pet, input.input);
-            });
-        },
+        createPet: (0, protect_func_1.authenticated)((_, input, { Pet, dbFunctions }, __) => __awaiter(void 0, void 0, void 0, function* () {
+            return yield dbFunctions.createOne(Pet, input.input);
+        })),
     },
     User: {
         pets(root, __, { Pet, dbFunctions }) {

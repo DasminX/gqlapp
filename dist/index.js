@@ -20,6 +20,8 @@ mongoose_1.default
         typeDefs: schema_1.default,
         resolvers: resolvers_1.default,
         context: ({ req }) => {
+            var _a, _b;
+            const token = ((_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a.authorization) || ((_b = req === null || req === void 0 ? void 0 : req.cookies) === null || _b === void 0 ? void 0 : _b.jwtgql) || "invalid";
             return {
                 User: db_1.User,
                 Pet: db_1.Pet,
@@ -27,6 +29,7 @@ mongoose_1.default
                 createToken: auth_1.createToken,
                 comparePasswordAndThrow: auth_1.comparePasswordAndThrow,
                 hashPassword: auth_1.hashPassword,
+                token,
             };
         },
     });
