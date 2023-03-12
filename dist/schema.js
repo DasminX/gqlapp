@@ -34,7 +34,6 @@ const typeDefs = (0, graphql_tag_1.default) `
     name: String!
     age: Int!
     type: PetType!
-    owner: ID!
     adopted: Boolean!
   }
 

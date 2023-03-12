@@ -25,6 +25,8 @@ mongoose
       context: ({ req }) => {
         const token =
           req?.headers?.authorization || req?.cookies?.jwtgql || "invalid";
+        const currentUser = getUserFromToken(token);
+
         return {
           User,
           Pet,
@@ -33,6 +35,7 @@ mongoose
           comparePasswordAndThrow,
           hashPassword,
           token,
+          currentUser,
         };
       },
     });

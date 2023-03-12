@@ -14,13 +14,15 @@ export const createToken = (tokenObject: tokenObjectType) =>
   jwt.sign(tokenObject, secret);
 
 export const getUserFromToken = (token: string) => {
-  const user = jwt.verify(token, secret);
-
-  if (typeof user === "object" && user != null) {
-    return user;
+  try {
+    const user = jwt.verify(token, secret);
+    if (typeof user === "object" && user != null) {
+      return user;
+    }
+    return null;
+  } catch (e) {
+    return null;
   }
-
-  return null;
 };
 
 export const isTokenValid = (token: string) => {

@@ -67,14 +67,14 @@ const resolvers = {
                 return { user, token };
             });
         },
-        createPet: (0, protect_func_1.authenticated)((_, input, { Pet, dbFunctions }, __) => __awaiter(void 0, void 0, void 0, function* () {
-            return yield dbFunctions.createOne(Pet, input.input);
+        createPet: (0, protect_func_1.authenticated)((_, input, { Pet, dbFunctions, currentUser }, __) => __awaiter(void 0, void 0, void 0, function* () {
+            return yield dbFunctions.createOne(Pet, Object.assign(Object.assign({}, input.input), { owner: currentUser.id }));
         })),
     },
     User: {
         pets(root, __, { Pet, dbFunctions }) {
             return __awaiter(this, void 0, void 0, function* () {
-                return yield dbFunctions.getAll(Pet, { owner: root._id });
+                return yield dbFunctions.getAll(Pet, { owner: root.id });
             });
         },
     },

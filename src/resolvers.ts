@@ -56,13 +56,18 @@ const resolvers = {
 
       return { user, token };
     },
-    createPet: authenticated(async (_, input, { Pet, dbFunctions }, __) => {
-      return await dbFunctions.createOne(Pet, input.input);
-    }),
+    createPet: authenticated(
+      async (_, input, { Pet, dbFunctions, currentUser }, __) => {
+        return await dbFunctions.createOne(Pet, {
+          ...input.input,
+          owner: currentUser.id,
+        });
+      }
+    ),
   },
   User: {
     async pets(root, __, { Pet, dbFunctions }) {
-      return await dbFunctions.getAll(Pet, { owner: root._id });
+      return await dbFunctions.getAll(Pet, { owner: root.id });
     },
   },
   Pet: {

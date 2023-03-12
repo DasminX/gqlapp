@@ -29,7 +29,6 @@ const typeDefs = gql`
     name: String!
     age: Int!
     type: PetType!
-    owner: ID!
     adopted: Boolean!
   }
 
