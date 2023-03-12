@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { authenticated } from "./utils/protect-func";
+// import pubsub from ApolloServer
+// const pubSub = new pubsub()
 
 const resolvers = {
   Query: {
@@ -64,6 +66,10 @@ const resolvers = {
         });
       }
     ),
+    /*     createPost(_, {content}) {
+      pubSub.publish(NEW_POST, {newPost: {content: {content}}})
+      return {content}
+    } */
   },
   User: {
     async pets(root, __, { Pet, dbFunctions }) {
@@ -75,6 +81,11 @@ const resolvers = {
       return await dbFunctions.getOneById(User, root.owner);
     },
   },
+  /* Subscription: {
+    newPost: {
+      subscribe: () => pubSub.asyncIterator(NEW_POST)
+    }
+  } */
 };
 
 export default resolvers;

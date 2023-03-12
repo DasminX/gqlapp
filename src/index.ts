@@ -22,7 +22,11 @@ mongoose
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      context: ({ req }) => {
+      context: ({ req /* , connection */ }) => {
+        // const context = {...db} // wspolny context dla connection i zwyklych query
+        /* if (connection) {
+          return {...context, ...connection.context} // connection.context = subscriptions => onconnect => returned context
+        } */
         const token =
           req?.headers?.authorization || req?.cookies?.jwtgql || "invalid";
         const currentUser = getUserFromToken(token);
@@ -38,6 +42,15 @@ mongoose
           currentUser,
         };
       },
+      /*       subscriptions: {
+        onConnect(params = req.headers) {
+          // Authentication here
+          const token =
+          params.authorization ||  (??? req?.cookies?.jwtgql ???) || "invalid";
+          const currentUser = getUserFromToken(token);
+          console.log(params);
+        }
+      } */
     });
 
     return server.listen();

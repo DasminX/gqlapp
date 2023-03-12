@@ -1,4 +1,8 @@
 import gql from "graphql-tag";
+
+// import pubsub from ApolloServer
+// const pubSub = new PubSub()
+
 const typeDefs = gql`
   type User {
     id: ID!
@@ -59,7 +63,18 @@ const typeDefs = gql`
     createPet(input: createPetInput): Pet!
     signup(input: authSignupInput): String!
     login(input: authLoginInput): authUser!
+    # createPost(content: String!): Post
   }
+
+  # subskrypcje
+
+  # type Post {
+  #   content: String!
+  # }
+
+  # type Subscription {
+  #   newPost: Post!
+  # }
 `;
 
 export default typeDefs;
