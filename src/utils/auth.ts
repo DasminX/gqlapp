@@ -1,3 +1,4 @@
+import { UserInputError } from "apollo-server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
@@ -41,7 +42,7 @@ export const comparePasswordAndThrow = (
   dbPassword: string
 ) => {
   if (!bcrypt.compare(incomingPassword, dbPassword)) {
-    throw new Error("Wrong login or password!");
+    throw new UserInputError("Wrong login or password!");
   }
 };
 

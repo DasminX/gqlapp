@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { ApolloError, AuthenticationError } from "apollo-server";
 import { authenticated } from "./utils/protect-func";
 
 const resolvers = {
@@ -23,7 +24,9 @@ const resolvers = {
       });
 
       if (isUser) {
-        throw new Error("Account with that email already exists!");
+        throw new AuthenticationError(
+          "Account with that email already exists!"
+        );
       }
 
       const newUser = await dbFunctions.createOne(User, {
@@ -33,7 +36,7 @@ const resolvers = {
       });
 
       if (!newUser) {
-        throw new Error("Something went wrong! Try again.");
+        throw new ApolloError("Something went wrong! Try again.", 500);
       }
 
       return "Registering successfull!"; // todo
@@ -48,7 +51,7 @@ const resolvers = {
       });
 
       if (!user) {
-        throw new Error("User with that email does not exist!");
+        throw new AuthenticationError("User with that email does not exist!");
       }
 
       await comparePasswordAndThrow(input.input.password, user.password);

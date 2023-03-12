@@ -1,4 +1,5 @@
 import { ApolloServer } from "apollo-server";
+// import { AuthenticationoError, ApolloError, UserInputError } from "apollo-server";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -22,6 +23,11 @@ mongoose
     const server = new ApolloServer({
       typeDefs,
       resolvers,
+      // formatError(e) {
+      //   /* Trace bledow w konsoli */
+      //   console.log(e);
+      //   return new Error(e);
+      // },
       context: ({ req }) => {
         const token =
           req?.headers?.authorization || req?.cookies?.jwtgql || "invalid";
