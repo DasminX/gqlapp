@@ -54,3 +54,54 @@ mongoose
     console.log("exit gracefully");
     process.exit(1);
   });
+
+/* Dyrektywy */
+
+/* 
+  SERVER SIDE
+  @deprecated(reason?: String) - pole nie jest wspierane (daje tylko feedback do uzytkownika ale dalej trzeba zostawic resolvery i logike)
+  
+  CLIENT SIDE
+  @include(if?: Boolean) - gdy przekazany argument do include->if jest prawdziwy to dolacz do response to pole przy ktorym jest @include
+  @skip(if?: Boolean) - gdy przekazany argument do skip->if jest prawdziwy, to nie przekazuj tego pola do response
+
+  /////////////////////////////////
+  CUSTOM DIRECTIVES
+  import SchemaDirectiveVisitor from 'apollo-server'; !!!
+  import { defaultFieldResolver, GraphQLString } from 'graphql' !!!
+
+  class LogDirective extends SchemaDirectiveVisitor {
+    visitFieldDefinition(field, type) {
+      const resolver = field.resolve || defaultFieldResolver;
+      const { message } = this.args;
+
+      field.args.push({
+        type: GraphQLString,
+        name: "Message"
+      })
+
+      field.resolve = (root, {message, ...rest}, ctx, info) => {
+        // DO SOMETHING THERE - LOG ex.
+        return resolver.call(this, root, rest, ctx, info);
+      }
+    }
+
+    visitedType() {
+      ...
+    }
+  }
+
+  gql`
+    directive @log(message: String = "default message") on FIELD_DEFINITION (TYPE_DEFINITION)
+
+    type WHATEVER {
+      id: ID! @log("coś")
+    }
+  `
+  
+    const server = new ApolloServer({
+      schemaDirectives: {
+        log: LogDirective
+      }
+    });
+  */
