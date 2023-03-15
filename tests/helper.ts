@@ -12,6 +12,5 @@ export const createServerTest = (ctx) => {
     mocks: true, // ignore resolvers - mock them with random data
     context: () => ctx,
   });
-  //
   return createTestClient(server);
 };
